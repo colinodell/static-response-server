@@ -7,53 +7,78 @@ package main
 
 import (
 	flag "github.com/spf13/pflag"
+	"github.com/spf13/viper"
 	"log"
 	"net/http"
 	"strconv"
 	"strings"
 )
 
-var (
-	port         = flag.IntP("port", "p", 8080, "port to listen on")
-	responseCode = flag.Int("code", 200, "response status code to return")
-	responseBody = flag.String("body", "", "response body to return")
-	headers      = flag.StringArray("header", []string{}, "header to add to the request (multiple allowed)")
-	verbose      = flag.BoolP("verbose", "v", false, "verbose logging")
-)
+type header struct {
+	name, value string
+}
+
+func parseHeaders(headers string) []header {
+	var result []header
+
+    // split string into array of headers
+	arr := strings.Split(headers, "|")
+	for _, v := range arr {
+        // split header into name and value
+        hdr := strings.Split(v, ":")
+        if len(hdr) != 2 {
+            log.Fatal("Invalid header: " + v)
+        }
+
+        result = append(result, header{strings.Trim(hdr[0], " "),  strings.Trim(hdr[1], " ")})
+    }
+
+	return result
+}
+
+func init() {
+	flag.IntP("port", "p", 8080, "port to listen on")
+	flag.Int("code", 200, "response status code to return")
+	flag.String("body", "", "response body to return")
+	flag.String("headers", "Content-Type: text/plain|Cache-Control: public, max-age=604800", "headers to add to the request (use pipes to separate multiple headers)")
+	flag.BoolP("verbose", "v", false, "verbose logging")
+
+	viper.SetEnvPrefix("HTTP")
+	viper.AutomaticEnv()
+
+	flag.Parse()
+	viper.BindPFlags(flag.CommandLine)
+
+	log.SetFlags(log.Ldate | log.Ltime)
+}
 
 func main() {
-	flag.Parse()
-	log.SetFlags(log.Ldate | log.Ltime)
-
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(200)
 		w.Write([]byte("Ok"))
 	})
 
-	handler := rootHandler(*responseCode, []byte(*responseBody), *headers)
+	responseCode := viper.GetInt("code")
+	responseBody := viper.GetString("body")
+	headers := parseHeaders(viper.GetString("headers"))
+	port := ":" + strconv.FormatInt(viper.GetInt64("port"), 10)
 
-	if *verbose {
+	handler := rootHandler(responseCode, []byte(responseBody), headers)
+
+	if viper.GetBool("verbose") {
 		handler = logRequest(handler)
 	}
 
 	http.Handle("/", handler)
 
-	port := ":" + strconv.FormatInt(int64(*port), 10)
-
 	log.Printf("Listening at 0.0.0.0%v", port)
 	log.Fatalln(http.ListenAndServe(port, nil))
 }
 
-func rootHandler(responseCode int, responseBody []byte, headers []string) http.Handler {
+func rootHandler(responseCode int, responseBody []byte, headers []header) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		for _, header := range headers {
-			parts := strings.SplitN(header, ":", 2)
-			if len(parts) != 2 {
-				http.Error(w, "invalid header", http.StatusBadRequest)
-				return
-			}
-
-			w.Header().Add(parts[0], strings.Trim(parts[1], " "))
+			w.Header().Add(header.name, header.value)
 		}
 
 		w.WriteHeader(responseCode)
