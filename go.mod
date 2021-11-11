@@ -3,6 +3,7 @@ module github.com/colinodell/static-response-server
 go 1.14
 
 require (
-	github.com/spf13/pflag v1.0.5
-	github.com/spf13/viper v1.9.0
+	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751 // indirect
+	github.com/alecthomas/units v0.0.0-20210927113745-59d0afb8317a // indirect
+	gopkg.in/alecthomas/kingpin.v2 v2.2.6
 )

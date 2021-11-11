@@ -31,34 +31,42 @@ Or with environment variables:
 docker run -d -p 80:8080 -e HTTP_CODE=404 -e HTTP_BODY="Not Found" -e HTTP_HEADERS="Content-Type: text/plain" -e HTTP_VERBOSE=1 colinodell/static-response-server
 ```
 
+
+### Download Binary
+
+Pre-built binaries are available for most popular operating systems: <https://github.com/colinodell/static-response-server/releases>
+
 ### Build From Source
 
 Simply clone this project and run `go build` to build the binary.
 
 ## Configuration
 
-The server can be configured via command line flags:
+The server can be configured via command line flags or environment variables:
+
+| Flag                | Environment Variable | Default | Description                                                       |
+|---------------------|----------------------|---------|-------------------------------------------------------------------|
+| `--port` or `-p`    | `HTTP_PORT`          | `8080`  | Port to listen on                                                 |
+| `--code`            | `HTTP_CODE`          | `200`   | HTTP status code to return                                        |
+| `--body`            | `HTTP_BODY`          |         | HTTP body to return                                               |
+| `--headers`         | `HTTP_HEADERS`       |         | HTTP headers to return (multiple headers separated by pipes (`|`) |
+| `--verbose` or `-v` | `VERBOSE`            | (off)   | Print verbose output                                              |
 
 ```
 $ ./static-response-server --help
 
-Usage of ./static-response-server:
---body string      response body to return
---code int         response status code to return (default 200)
---headers string   headers to add to the request (use pipes to separate multiple headers) (default "Content-Type: text/plain|Cache-Control: public, max-age=604800")
--p, --port int         port to listen on (default 8080)
--v, --verbose          verbose logging
-```
+usage: static-response-server [<flags>]
 
-Environment variables are also supported - simply prefix the flags above with `HTTP_`.
+    Flags:
+    --help        Show context-sensitive help (also try --help-long and --help-man).
+    -p, --port=8080   Port to listen on
+    --headers=""  Headers to add to the response
+    --code=200    HTTP status code to return
+    --body=""     Body to return
+    -v, --verbose     Verbose logging
+```
 
 ## Examples
-
-### Redirecting all traffic to a different URL
-
-```bash
-./static-response-server --body "Moved Permanently" --code 301 --headers "Location: https://www.google.com"
-```
 
 ### Returning a 404
 
@@ -70,6 +78,12 @@ Environment variables are also supported - simply prefix the flags above with `H
 
 ```bash
 HTTP_BODY="This service no longer exists" HTTP_CODE=404 ./static-response-server
+```
+
+### Redirecting all traffic to a different URL
+
+```bash
+./static-response-server --body "Moved Permanently" --code 301 --headers "Location: https://www.google.com"
 ```
 
 ### Pretending your API still accepts POST requests
