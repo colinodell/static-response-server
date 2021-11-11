@@ -10,30 +10,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
-	"strings"
 )
-
-type header struct {
-	name, value string
-}
-
-func parseHeaders(headers string) []header {
-	var result []header
-
-    // split string into array of headers
-	arr := strings.Split(headers, "|")
-	for _, v := range arr {
-        // split header into name and value
-        hdr := strings.Split(v, ":")
-        if len(hdr) != 2 {
-            log.Fatal("Invalid header: " + v)
-        }
-
-        result = append(result, header{strings.Trim(hdr[0], " "),  strings.Trim(hdr[1], " ")})
-    }
-
-	return result
-}
 
 var (
 	port         = kingpin.Flag("port", "Port to listen on").Short('p').Default("8080").Envar("HTTP_PORT").Int64()
