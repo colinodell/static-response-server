@@ -11,11 +11,21 @@ taking that offline might break consumers.
 Instead of spinning up a full blown HTTP server like nginx to handle this, you can instead use this super tiny, statically-compiled
 Golang-based Docker image which uses as few resources as possible.
 
-## Build
+## Installation
+
+### Docker
+
+The easiest way to use this server is via Docker:
+
+```bash
+docker run -d -p 80:8080 colinodell/static-response-server --code=404 --message="Not Found" --headers="Content-Type: text/plain" -v
+```
+
+### Build From Source
 
 Simply clone this project and run `go build` to build the binary.
 
-## Usage
+## Configuration
 
 The server can be configured via command line flags:
 
