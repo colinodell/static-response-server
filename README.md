@@ -44,13 +44,13 @@ Simply clone this project and run `go build` to build the binary.
 
 The server can be configured via command line flags or environment variables:
 
-| Flag                | Environment Variable | Default | Description                                                       |
-|---------------------|----------------------|---------|-------------------------------------------------------------------|
-| `--port` or `-p`    | `HTTP_PORT`          | `8080`  | Port to listen on                                                 |
-| `--code`            | `HTTP_CODE`          | `200`   | HTTP status code to return                                        |
-| `--body`            | `HTTP_BODY`          |         | HTTP body to return                                               |
-| `--headers`         | `HTTP_HEADERS`       |         | HTTP headers to return (multiple headers separated by pipes (`|`) |
-| `--verbose` or `-v` | `VERBOSE`            | (off)   | Print verbose output                                              |
+| Flag                | Environment Variable | Default | Description                                                        |
+|---------------------|----------------------|---------|--------------------------------------------------------------------|
+| `--port` or `-p`    | `HTTP_PORT`          | `8080`  | Port to listen on                                                  |
+| `--code`            | `HTTP_CODE`          | `200`   | HTTP status code to return                                         |
+| `--body`            | `HTTP_BODY`          |         | HTTP body to return                                                |
+| `--headers`         | `HTTP_HEADERS`       |         | HTTP headers to return (multiple headers separated by pipes (`\|`) |
+| `--verbose` or `-v` | `VERBOSE`            | (off)   | Print verbose output                                               |
 
 ```
 $ ./static-response-server --help
@@ -58,12 +58,12 @@ $ ./static-response-server --help
 usage: static-response-server [<flags>]
 
     Flags:
-    --help        Show context-sensitive help (also try --help-long and --help-man).
-    -p, --port=8080   Port to listen on
-    --headers=""  Headers to add to the response
-    --code=200    HTTP status code to return
-    --body=""     Body to return
-    -v, --verbose     Verbose logging
+    --help           Show context-sensitive help (also try --help-long and --help-man).
+    -p, --port=8080  Port to listen on
+    --headers=""     Headers to add to the response
+    --code=200       HTTP status code to return
+    --body=""        Body to return
+    -v, --verbose    Verbose logging
 ```
 
 ## Examples
