@@ -1,4 +1,4 @@
-module static-response-server
+module github.com/colinodell/static-response-server
 
 go 1.14
 
