@@ -27,7 +27,7 @@ func parseHeaders(headers string) []header {
 		}
 
 		// split header into name and value
-		hdr := strings.Split(v, ":")
+		hdr := strings.SplitN(v, ":", 2)
 		if len(hdr) != 2 {
 			log.Fatal("Invalid header: " + v)
 		}

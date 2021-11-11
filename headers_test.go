@@ -30,3 +30,10 @@ func TestParseMultipleHeaders(t *testing.T) {
 	assert.Equal(t, "Content-Length", headers[1].name)
 	assert.Equal(t, "123", headers[1].value)
 }
+
+func TestParseHeaderWithColon(t *testing.T) {
+    headers := parseHeaders("Location: https://www.example.com")
+    assert.Equal(t, 1, len(headers))
+	assert.Equal(t, "Location", headers[0].name)
+	assert.Equal(t, "https://www.example.com", headers[0].value)
+}
