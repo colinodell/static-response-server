@@ -1,5 +1,9 @@
 # static-response-server
 
+[![GitHub](https://img.shields.io/github/license/colinodell/static-response-server?style=flat-square)](https://github.com/colinodell/static-response-server/blob/main/LICENSE)
+[![Docker Image Size (latest)](https://img.shields.io/docker/image-size/colinodell/static-response-server?style=flat-square)](https://hub.docker.com/repository/docker/colinodell/static-response-server)
+[![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/colinodell/static-response-server?style=flat-square)](https://pkg.go.dev/github.com/colinodell/static-response-server)
+
 Super tiny HTTP server that always returns the same response.
 
 ## Purpose
