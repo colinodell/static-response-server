@@ -30,3 +30,4 @@ WORKDIR /
 COPY --from=builder /go/src/github.com/colinodell/static-response-server/bin/ .
 USER appuser
 ENTRYPOINT ["/static-response-server"]
+EXPOSE 8080
