@@ -18,7 +18,7 @@ Golang-based Docker image which uses as few resources as possible.
 The easiest way to use this server is via Docker:
 
 ```bash
-docker run -d -p 80:8080 colinodell/static-response-server --code=404 --message="Not Found" --headers="Content-Type: text/plain" -v
+docker run -d -p 80:8080 colinodell/static-response-server --code=404 --body="Not Found" --header="Content-Type: text/plain" -v
 ```
 
 ### Build From Source
