@@ -31,10 +31,23 @@ Or with environment variables:
 docker run -d -p 80:8080 -e HTTP_CODE=404 -e HTTP_BODY="Not Found" -e HTTP_HEADERS="Content-Type: text/plain" -e HTTP_VERBOSE=1 colinodell/static-response-server
 ```
 
+Using Docker-Compose? We've got that covered too!
 
-### Download Binary
+```yaml
+version: '3'
+services:
+  static-response-server:
+    image: colinodell/static-response-server
+    ports:
+      - "80:8080"
+    environment:
+      - HTTP_CODE=404
+      - HTTP_BODY="Not Found"
+      - HTTP_HEADERS="Content-Type: text/plain"
+      - HTTP_VERBOSE=1
+```
 
-Pre-built binaries are available for most popular operating systems: <https://github.com/colinodell/static-response-server/releases>
+_(Consider using a reverse proxy like [Traefik](https://github.com/traefik/traefik) to secure the requests with HTTPS.)_
 
 ### Build From Source
 
